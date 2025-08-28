@@ -1,0 +1,148 @@
+<html>
+<style>body{background:gray;}</style>
+<head><title>Video Sketcher</title>
+</head>
+<body>
+<canvas id = "canvas"></canvas><br>
+<button onclick="handleClear()" style='font-size: 20px;padding: 30px 60px;'>CLEAR</button>
+<br>
+<button onclick="redButton()" style='text-color:#000000;background-color:#FF0000;border-radius:50%;font-size: 30px; padding: 30px 60px;'>RED</button>
+<button onclick="orangeButton()" style='text-color:#000000;background-color:#FFAA00;border-radius:50%;font-size: 20px;padding: 30px 60px;'>ORANGE</button>
+<button onclick="yellowButton()" style='text-color:#000000;background-color:#FFFF00;border-radius:50%;font-size: 20px;padding: 30px 60px;'>YELLOW</button>
+<button onclick="greenButton()" style='text-color:#000000;background-color:#00FF00;border-radius:50%;font-size: 20px;padding: 30px 60px;'>GREEN</button>
+<button onclick="blueButton()" style='text-color:#000000;background-color:#0000FF;border-radius:50%;font-size: 20px;padding: 30px 60px;'>BLUE</button>
+<button onclick="purpleButton()" style='text-color:#000000;background-color:#FF00FF;border-radius:50%;font-size: 20px;padding: 30px 60px;'>PURPLE</button>
+<button onclick="whiteButton()" style='text-color:#000000;background-color:#FFFFFF;border-radius:50%;font-size: 20px;padding: 30px 60px;'>WHITE</button>
+
+
+<p id = 'demo'></p>
+</body>
+<script>
+const canvas = document.getElementById('canvas');
+const context = canvas.getContext('2d');
+
+canvas.width = 1000;
+canvas.height = 1000;
+let count = 0;
+starting = [0,0]
+COLORS = ['black','red','orange','yellow','green','blue','purple','white']
+context.fillStyle = COLORS[0];
+context.fillRect(0,0,canvas.width,canvas.height);
+context.strokeStyle = COLORS[4];
+
+canvas.addEventListener('touchstart',handleStart);
+canvas.addEventListener('touchmove',handleMove);
+
+function redButton(){
+  context.strokeStyle = 'red';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'red'})
+  });
+}
+
+function orangeButton(){
+  context.strokeStyle = 'orange';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'orange'})
+  });
+}
+
+function yellowButton(){
+  context.strokeStyle = 'yellow';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'yellow'})
+  });
+}
+
+function greenButton(){
+  context.strokeStyle = 'green';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'green'})
+  });
+}
+
+function blueButton(){
+  context.strokeStyle = 'blue';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'blue'})
+  });
+}
+
+function purpleButton(){
+  context.strokeStyle = 'purple';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'purple'})
+  });
+}
+
+function whiteButton(){
+  context.strokeStyle = 'white';
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'color': 'white'})
+  });
+}
+
+
+
+function handleClear(){
+  context.fillStyle = COLORS[0];
+  context.fillRect(0,0,canvas.width,canvas.height);
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'start':2,'x':x,'y':y})
+  });
+}
+
+
+
+function handleStart(event){
+  event.preventDefault();
+  context.beginPath()
+  x = event.touches[0].clientX;
+  y = event.touches[0].clientY;
+  context.moveTo(x,y)
+  starting = [x,y]
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'start':1,'x':x,'y':y})
+  });
+}
+
+function handleMove(event){
+  event.preventDefault();
+  x = event.touches[0].clientX;
+  y = event.touches[0].clientY;
+  context.lineTo(x,y)
+  fetch('/',{
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({'start':0,'x':x,'y':y,'start_x':starting[0],'start_y':starting[1]})
+  });
+  starting = [x,y]
+  context.stroke();
+}
+
+
+</script>
+
+
+
+
+
+</html>
